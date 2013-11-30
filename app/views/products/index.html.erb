@@ -1,7 +1,8 @@
 <h1>Products</h1>
-
-<% @products.each do |product|%>
-<%= product.name %><br/>
-<%= product.description %><br/>
-$<%= product.formatted_price %><br/>
-<% end %>
+<div class= "each_product">
+	<% @products.each do |product|%>
+		<div class= "product_name"><%= link_to (product[:name]), product_path(product[:id]) %><br/></div>
+		<div class= "product_desc"><%= product.description %><br/></div>
+		<div class= "product_price">$<%= product.formatted_price %><br/></div>
+	<% end %>
+</div>
