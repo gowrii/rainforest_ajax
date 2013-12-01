@@ -5,32 +5,17 @@
 <% if current_user %>
 
   <p>Reviews for <%= @product.name %></p>
-
-  <% @product.reviews.each do |review| %>
-    <p>
-      <%= review.comment %>
-      <br>
-      <% if review.user != nil %>
-        <em> by <%= review.user.email %></em>
-        Added on: <%= review.created_at %>
-      <% end %>
-    </p>
-  <% end %>
+  
+  <div id="review-list">
+<%= render :partial => "products/reviews" %>
+</div>
+  
 <h4>New Review</h4>
 
   <%= form_for([@product, @review], :remote => true) do |f| %>
-    <% if @review.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
-
-        <ul>
-        <% @review.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-
+<div id="review-form-errors">
+    <%= render :partial => "products/review_form_errors" %>
+</div>
     <div class="field">
       <%= f.label :comment %><br />
       <%= f.text_area :comment %>
@@ -43,3 +28,18 @@
 <% else %>
   <p>Please <%= link_to "log in", new_session_path %> to add a review.</p> 
 <% end %>
+
+<script type= "text/javascript">
+$(function() {
+  $("#new_review")
+    .on('ajax:beforeSend', function(){
+      $("input[type= 'submit']")
+        ,val('Saving...')
+        .attr('disabled', 'disabled');
+    })
+    .on('ajax:complete', function(){
+      $("input[type= 'submit']")
+      .val('Create Review')
+      .removeAttr('disabled');
+    });
+});
