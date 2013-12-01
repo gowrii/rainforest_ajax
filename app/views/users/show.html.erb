@@ -1,1 +1,9 @@
-<h1><%= @user.name %></h1>
+<header><h1>User Profile</h1></header>
+
+	<% if current_user %>
+		<%= @user.email %>
+
+
+
+
+	<% end %>

@@ -1,7 +1,12 @@
 RainforestAjax::Application.routes.draw do
+
   resources :sessions, :only => [:new, :create, :destroy]
   resources :users, :only => [:new, :create, :show]
-  resources :products
+  resources :products do 
+    resources :reviews, :except => [:index]
+  end
+  get 'logout', to: "sessions#destroy", as: :logout
+  get 'login', to: "sessions#new", as: :login
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
